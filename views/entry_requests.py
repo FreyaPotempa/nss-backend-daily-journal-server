@@ -1,5 +1,5 @@
 import sqlite3
-from models import Entry, Mood
+from models import Entry, Mood, Tag
 
 
 def get_all_entries():
@@ -130,13 +130,19 @@ def create_entry(new_entry):
 
         db_cursor.execute('''
         INSERT INTO JournalEntries
-            ( concept, entry, mood_id)
+            ( concept, entry, mood_id )
         VALUES
             (?,?,?);
             ''', (new_entry['concept'], new_entry['entry'], new_entry['mood_id']))
 
         id = db_cursor.lastrowid
+        entry_id = id
 
         new_entry["id"] = id
+
+        for tag_id in new_entry['tags']:
+
+            db_cursor.execute("""
+            INSERT INTO EntryTags (entry_id, tag_id) VALUES (?,?); """, (entry_id, tag_id))
 
     return new_entry

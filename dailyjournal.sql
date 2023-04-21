@@ -27,3 +27,26 @@ INSERT INTO `JournalEntries` VALUES (null, "Le Sigh", "The beauty of existence i
 
 SELECT * FROM `JournalEntries`
 WHERE `entry` LIKE "%agony%"
+
+CREATE TABLE `Tags`
+(
+    `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    `tag` TEXT NOT NULL
+);
+
+CREATE TABLE `EntryTags`
+(
+    `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    `entry_id` INTEGER NOT NULL,
+    `tag_id` INTEGER NOT NULL,
+    FOREIGN KEY(`entry_id`) REFERENCES `JournalEntries`(`id`)
+    FOREIGN KEY(`tag_id`) REFERENCES `Tags`(`id`)
+);
+
+INSERT INTO `Tags` VALUES (null, "poetry");
+INSERT INTO `Tags` VALUES (null, "introspection");
+INSERT INTO `Tags` VALUES (null, "grattitude");
+INSERT INTO `Tags` VALUES (null, "whinge");
+
+
+
